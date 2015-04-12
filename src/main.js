@@ -1,4 +1,4 @@
-// KPR Script file
+// device main.js file
 var THEME = require('themes/sample/theme');
 var BUTTONS = require('controls/buttons');
 var CONTROL = require('mobile/control');
@@ -56,6 +56,74 @@ Handler.bind("/stopPath", Behavior({
 	onInvoke: function(handler, message){
 		mainContainer.flightPath.string = "Current Status: Stationary";
 	}
+}));
+
+/*BEGIN ACCELEROMETER STUFF*/
+
+Handler.bind("/potResult", Object.create(Behavior.prototype, {
+//@line 27
+	onInvoke: { value: function( handler, message ){
+				application.distribute( "receiveReading", message.requestObject );
+			}}
+}));
+Handler.bind("/accelResult", Object.create(Behavior.prototype, {
+//@line 35
+	onInvoke: { value: function( handler, message ){
+				application.distribute( "receiveAccelReading", message.requestObject );
+			}}
+}));
+
+var MainContainer = Container.template(function($) { return { left: 0, right: 0, top: 0, bottom: 0, }});
+//@line 47
+var MainCanvas = Canvas.template(function($) { return { left: 10, right: 10, top: 10, bottom: 10, behavior: Object.create((MainCanvas.behaviors[0]).prototype), }});
+MainCanvas.behaviors = new Array(1);
+MainCanvas.behaviors[0] = Behavior.template({
+//@line 50
+	onDisplaying: function(content) {
+		this.canvas = content;
+            	this.newPoint = true;
+            	this.lastX = false;
+				application.invoke( new MessageWithObject( "pins:/accelerometer/read?repeat=on&callback=/accelResult&interval=70" ) );
+                this.clear();
+	},
+//@line 60
+	clear: function(content) {
+		var ctx = this.canvas.getContext( "2d" );
+				var w = this.canvas.width;
+                var h = this.canvas.height;
+      	        ctx.fillStyle = "black";
+				ctx.fillRect( 0,0,w,h );
+				this.newPoint = true;
+	},
+//@line 69
+	receiveReading: function(params, data) {
+		if ( this.newPoint ){
+                	this.startLine( { x: data.xPos, y: data.yPos } );
+                }
+                else {
+                	this.lineTo( { x: data.xPos, y: 1 - data.yPos } );
+                }
+	},
+//@line 99
+	receiveAccelReading: function(params, data) {
+		trace("x Data received is: " + data.x + "\n");
+		trace("y Data received is: " + data.y + "\n");
+		trace("z Data received is: " + data.z + "\n");
+	},
+})
+//@line 124
+var mainCanvas = new MainCanvas();
+        application.add( mainCanvas );
+        
+		application.invoke( new MessageWithObject( "pins:configure", {
+            accelerometer: {
+                require: "accelerometer",
+                pins: {
+                    x: { pin: 48 }, 
+					y: { pin: 47 }, 
+					z: { pin: 43 } 
+                }
+            }
 }));
 
 var ApplicationBehavior = Behavior.template({
