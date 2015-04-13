@@ -15,25 +15,32 @@ var configure = exports.configure = function(configuration) {
 			axes : [
 				new PinsSimulators.AnalogInputAxisDescription(
 					{
-						valueLabel : "Current Speed",
+						valueLabel : "X Position",
 						defaultControl : PinsSimulators.SLIDER,
 						valueID : "x",
-						speed : 0
+						speed : 0,
+						minValue: 0,
+						maxValue: 10
 					}
 				),
 				new PinsSimulators.AnalogInputAxisDescription(
 					{
-						valueLabel : "Altitude",
+						valueLabel : "Y Position",
 						defaultControl : PinsSimulators.SLIDER,
 						valueID : "y",
-						speed : 0
+						speed : 0,
+						minValue: 0,
+						maxValue: 10,
 					}
 				),
 				new PinsSimulators.AnalogInputAxisDescription(
 					{
-						valueLabel : "Direction",
+						valueLabel : "Z Position",
+						defaultControl : PinsSimulators.SLIDER,
 						valueID : "z",
-						speed : 0
+						speed : 0,
+						minValue: 0,
+						maxValue: 10,
 					}
 				),
 			]
