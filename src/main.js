@@ -39,6 +39,8 @@ var mainContainer = new Container({
   ]
 });
 
+var view="center";
+
 Handler.bind("/search", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = "Movement received!";
@@ -53,7 +55,13 @@ Handler.bind("/forward", Behavior({
 		message.responseText = "Movement received!";
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("");
+		if (view == "back") {
+			mainContainer.cameraFeed.load("china/ccenter.png");
+			view = "center";
+		} else {
+			mainContainer.cameraFeed.load("china/cforward.png");
+			view = "forward";
+		}
 	}
 }));
 
@@ -62,7 +70,13 @@ Handler.bind("/back", Behavior({
 		message.responseText = "Movement received!";
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("");
+		if (view == "forward") {
+			mainContainer.cameraFeed.load("china/ccenter.png");
+			view = "center";
+		} else {
+			mainContainer.cameraFeed.load("china/cback.png");
+			view = "back";
+		}
 	}
 }));
 
@@ -71,7 +85,13 @@ Handler.bind("/left", Behavior({
 		message.responseText = "Movement received!";
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("");
+		if (view == "right") {
+			mainContainer.cameraFeed.load("china/ccenter.png");
+			view = "center";
+		} else {
+			mainContainer.cameraFeed.load("china/cleft.png");
+			view = "left";
+		}
 	}
 }));
 
@@ -80,7 +100,13 @@ Handler.bind("/right", Behavior({
 		message.responseText = "Movement received!";
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("");
+		if (view == "left") {
+			mainContainer.cameraFeed.load("china/ccenter.png");
+			view = "center";
+		} else {
+			mainContainer.cameraFeed.load("china/cright.png");
+			view = "right";
+		}
 	}
 }));
 
@@ -89,7 +115,13 @@ Handler.bind("/ascend", Behavior({
 		message.responseText = "Movement received!";
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("");
+		if (view == "descend") {
+			mainContainer.cameraFeed.load("china/ccenter.png");
+			view = "center";
+		} else {
+			mainContainer.cameraFeed.load("china/cascend.png");
+			view = "ascend";
+		}
 	}
 }));
 
@@ -98,7 +130,13 @@ Handler.bind("/descend", Behavior({
 		message.responseText = "Movement received!";
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("");
+		if (view == "ascend") {
+			mainContainer.cameraFeed.load("china/ccenter.png");
+			view = "center";
+		} else {
+			mainContainer.cameraFeed.load("china/cdescend.png");
+			view = "descend";
+		}
 	}
 }));
 
