@@ -34,7 +34,7 @@ var mainContainer = new Container({
   skin: whiteS,
   contents:[
     new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Disconnected",name: "droneStatus", style: textStyle}),
-    new Picture({left: 10, right: 10, top: 15, bottom: 15, name: "cameraFeed" }),
+    new Picture({left: 10, right: 10, top: 20, bottom: 20, name: "cameraFeed" }),
     new Label({left:0, right:0, bottom: 5, string: "Current Status: Off",name: "flightPath", style: textStyle})
   ]
 });
@@ -43,7 +43,7 @@ var view="center";
 
 Handler.bind("/search", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Autopilot";
 		mainContainer.cameraFeed.load("china/ccenter.png");
@@ -52,7 +52,7 @@ Handler.bind("/search", Behavior({
 
 Handler.bind("/forward", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
 		if (view == "back") {
@@ -67,7 +67,7 @@ Handler.bind("/forward", Behavior({
 
 Handler.bind("/back", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
 		if (view == "forward") {
@@ -82,7 +82,7 @@ Handler.bind("/back", Behavior({
 
 Handler.bind("/left", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
 		if (view == "right") {
@@ -97,7 +97,7 @@ Handler.bind("/left", Behavior({
 
 Handler.bind("/right", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
 		if (view == "left") {
@@ -112,14 +112,14 @@ Handler.bind("/right", Behavior({
 
 Handler.bind("/ascend", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
 		if (view == "descend") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
 		} else {
-			mainContainer.cameraFeed.load("china/cascend.png");
+			mainContainer.cameraFeed.load("china/cup.png");
 			view = "ascend";
 		}
 	}
@@ -127,14 +127,14 @@ Handler.bind("/ascend", Behavior({
 
 Handler.bind("/descend", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = "Movement received!";
+		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
 		if (view == "ascend") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
 		} else {
-			mainContainer.cameraFeed.load("china/cdescend.png");
+			mainContainer.cameraFeed.load("china/cdown.png");
 			view = "descend";
 		}
 	}
