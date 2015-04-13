@@ -16,6 +16,7 @@ var configure = exports.configure = function(configuration) {
 				new PinsSimulators.AnalogInputAxisDescription(
 					{
 						valueLabel : "Current Speed",
+						defaultControl : PinsSimulators.SLIDER,
 						valueID : "x",
 						speed : 0
 					}
@@ -23,6 +24,7 @@ var configure = exports.configure = function(configuration) {
 				new PinsSimulators.AnalogInputAxisDescription(
 					{
 						valueLabel : "Altitude",
+						defaultControl : PinsSimulators.SLIDER,
 						valueID : "y",
 						speed : 0
 					}
