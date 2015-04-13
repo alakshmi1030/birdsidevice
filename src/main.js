@@ -33,10 +33,74 @@ var mainContainer = new Container({
   left:0, right:0, top:0, bottom:0,
   skin: whiteS,
   contents:[
-    new Label({left:0, right:0, top: 20, string: "Drone Connectivity: Disconnected",name: "droneStatus", style: textStyle}),
-    new Label({left:0, right:0, string: "Current Status: Stationary",name: "flightPath", style: textStyle})
+    new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Disconnected",name: "droneStatus", style: textStyle}),
+    new Picture({left: 10, right: 10, top: 15, bottom: 15, name: "cameraFeed" }),
+    new Label({left:0, right:0, bottom: 5, string: "Current Status: Off",name: "flightPath", style: textStyle})
   ]
 });
+
+Handler.bind("/search", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Autopilot";
+		mainContainer.cameraFeed.load("china/ccenter.png");
+	}
+}));
+
+Handler.bind("/forward", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("");
+	}
+}));
+
+Handler.bind("/back", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("");
+	}
+}));
+
+Handler.bind("/left", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("");
+	}
+}));
+
+Handler.bind("/right", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("");
+	}
+}));
+
+Handler.bind("/ascend", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("");
+	}
+}));
+
+Handler.bind("/descend", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = "Movement received!";
+		message.status = 200;
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("");
+	}
+}));
 
 Handler.bind("/connect", Behavior({
 	onInvoke: function(handler, message){
@@ -48,13 +112,15 @@ Handler.bind("/connect", Behavior({
 
 Handler.bind("/startPath", Behavior({
 	onInvoke: function(handler, message){
-		mainContainer.flightPath.string = "Current Status: Active";
+		mainContainer.flightPath.string = "Current Status: Autopilot";
+		mainContainer.cameraFeed.load("china/ccenter.png");
 	}
 }));
 
 Handler.bind("/stopPath", Behavior({
 	onInvoke: function(handler, message){
-		mainContainer.flightPath.string = "Current Status: Stationary";
+		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.cameraFeed.load("china/ccenter.png");
 	}
 }));
 
@@ -106,9 +172,9 @@ MainCanvas.behaviors[0] = Behavior.template({
 	},
 //@line 99
 	receiveAccelReading: function(params, data) {
-		trace("x Data received is: " + data.x + "\n");
-		trace("y Data received is: " + data.y + "\n");
-		trace("z Data received is: " + data.z + "\n");
+		//trace("x Data received is: " + data.x + "\n");
+		//trace("y Data received is: " + data.y + "\n");
+		//trace("z Data received is: " + data.z + "\n");
 	},
 })
 //@line 124
