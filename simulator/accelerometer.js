@@ -5,6 +5,11 @@
 //@line 19
 var PinsSimulators = require('PinsSimulators');
 //@line 21
+
+var maxx = 200;
+var maxy = 200;
+var maxz = 200;
+
 var configure = exports.configure = function(configuration) {
 	this.pinsSimulator = shell.delegate("addSimulatorPart", {
 			header : { 
@@ -20,7 +25,7 @@ var configure = exports.configure = function(configuration) {
 						valueID : "x",
 						speed : 0,
 						minValue: 0,
-						maxValue: 10
+						maxValue: maxx
 					}
 				),
 				new PinsSimulators.AnalogInputAxisDescription(
@@ -29,8 +34,8 @@ var configure = exports.configure = function(configuration) {
 						defaultControl : PinsSimulators.SLIDER,
 						valueID : "y",
 						speed : 0,
-						minValue: 0,
-						maxValue: 10,
+							minValue: 0,
+						maxValue: maxy,
 					}
 				),
 				new PinsSimulators.AnalogInputAxisDescription(
@@ -40,7 +45,7 @@ var configure = exports.configure = function(configuration) {
 						valueID : "z",
 						speed : 0,
 						minValue: 0,
-						maxValue: 10,
+						maxValue: maxz,
 					}
 				),
 			]

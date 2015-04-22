@@ -29,6 +29,26 @@ var iconHeight = 50;
 var pictureWidth = 325;
 var pictureHeight = 325;
 
+deviceURL = "";
+
+Handler.bind("/discover", Behavior({
+	onInvoke: function(handler, message){
+	    trace("discovering");
+		deviceURL = JSON.parse(message.requestText).url;
+		//handler.invoke(new Message(deviceURL + "getData"), Message.JSON);
+		//do stuff here
+	},
+	onComplete: function(content, message, json){
+		trace("got it");
+	}
+}));
+
+Handler.bind("/forget", Behavior({
+	onInvoke: function(handler, message){
+		deviceURL = "";
+	}
+}));
+
 var mainContainer = new Container({
   left:0, right:0, top:0, bottom:0,
   skin: whiteS,
@@ -52,6 +72,7 @@ Handler.bind("/search", Behavior({
 
 Handler.bind("/forward", Behavior({
 	onInvoke: function(handler, message){
+		trace(deviceURL + "...");
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
@@ -215,7 +236,7 @@ MainCanvas.behaviors[0] = Behavior.template({
 		//trace("z Data received is: " + data.z + "\n");
 	},
 })
-//@line 124
+
 var mainCanvas = new MainCanvas();
         application.add( mainCanvas );
         
@@ -234,7 +255,11 @@ var ApplicationBehavior = Behavior.template({
 	onLaunch: function(application) {
 		application.shared = true;
 	},
+	onDisplayed: function(application) {
+		application.discover("prototypephone");
+	},
 	onQuit: function(application) {
+		application.forget("prototypephone");
 		application.shared = false;
 	},
 })
