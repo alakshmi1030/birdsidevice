@@ -29,6 +29,10 @@ var iconHeight = 50;
 var pictureWidth = 325;
 var pictureHeight = 325;
 
+var xc = 0;
+var yc = 0;
+var zc = 0;
+
 deviceURL = "";
 
 Handler.bind("/discover", Behavior({
@@ -72,7 +76,6 @@ Handler.bind("/search", Behavior({
 
 Handler.bind("/forward", Behavior({
 	onInvoke: function(handler, message){
-		trace(deviceURL + "...");
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
 		mainContainer.flightPath.string = "Current Status: Manual";
@@ -198,6 +201,13 @@ Handler.bind("/accelResult", Object.create(Behavior.prototype, {
 			}}
 }));
 
+Handler.bind("/getData", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = JSON.stringify( { x:xc, y:yc} );
+		message.status = 200;
+	}
+}));
+
 var MainContainer = Container.template(function($) { return { left: 0, right: 0, top: 0, bottom: 0, }});
 //@line 47
 var MainCanvas = Canvas.template(function($) { return { left: 10, right: 10, top: 10, bottom: 10, behavior: Object.create((MainCanvas.behaviors[0]).prototype), }});
@@ -231,9 +241,13 @@ MainCanvas.behaviors[0] = Behavior.template({
 	},
 //@line 99
 	receiveAccelReading: function(params, data) {
-		//trace("x Data received is: " + data.x + "\n");
-		//trace("y Data received is: " + data.y + "\n");
-		//trace("z Data received is: " + data.z + "\n");
+		xc = data.x;
+	    yc = data.y;
+	    xz = data.z;
+		if (deviceURL != "") {
+		    params.invoke(new Message(deviceURL + "updateCurr"), Message.JSON);
+	    }
+	    
 	},
 })
 
