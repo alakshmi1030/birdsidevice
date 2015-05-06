@@ -57,7 +57,7 @@ var mainContainer = new Container({
   left:0, right:0, top:0, bottom:0,
   skin: whiteS,
   contents:[
-    new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Disconnected",name: "droneStatus", style: textStyle}),
+    new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Good",name: "droneStatus", style: textStyle}),
     new Picture({left: 10, right: 10, top: 20, bottom: 20, name: "cameraFeed" }),
     new Label({left:0, right:0, bottom: 5, string: "Current Status: Off",name: "flightPath", style: textStyle})
   ]
@@ -168,7 +168,7 @@ Handler.bind("/connect", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = "Successfully connected!";
 		message.status = 200;	
-		mainContainer.droneStatus.string = "Drone Connectivity: Connected";
+		mainContainer.droneStatus.string = "Drone Connectivity: Good";
 	}
 }));
 
@@ -203,7 +203,7 @@ Handler.bind("/accelResult", Object.create(Behavior.prototype, {
 
 Handler.bind("/getData", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = JSON.stringify( { x:xc, y:yc} );
+		message.responseText = JSON.stringify( { x:xc, y:yc, z:zc} );
 		message.status = 200;
 	}
 }));
@@ -243,7 +243,12 @@ MainCanvas.behaviors[0] = Behavior.template({
 	receiveAccelReading: function(params, data) {
 		xc = data.x;
 	    yc = data.y;
-	    xz = data.z;
+	    zc = data.z;
+	    if (zc > 300) {
+	        mainContainer.droneStatus.string = "Drone Connectivity: Poor";
+	    } else {
+	       mainContainer.droneStatus.string = "Drone Connectivity: Good";
+	    }
 		if (deviceURL != "") {
 		    params.invoke(new Message(deviceURL + "updateCurr"), Message.JSON);
 	    }

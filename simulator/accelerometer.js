@@ -8,7 +8,7 @@ var PinsSimulators = require('PinsSimulators');
 
 var maxx = 260;
 var maxy = 126;
-var maxz = 200;
+var maxz = 400;
 
 var configure = exports.configure = function(configuration) {
 	this.pinsSimulator = shell.delegate("addSimulatorPart", {
