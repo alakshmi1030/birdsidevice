@@ -39,6 +39,10 @@ Handler.bind("/discover", Behavior({
 	onInvoke: function(handler, message){
 	    trace("discovering");
 		deviceURL = JSON.parse(message.requestText).url;
+		if (deviceURL != "") {
+			mainContainer.droneStatus.string = "Drone Connectivity: Good";
+			mainContainer.currStatus.string = "Current Status: Manual";
+		}
 		//handler.invoke(new Message(deviceURL + "getData"), Message.JSON);
 		//do stuff here
 	},
@@ -57,9 +61,9 @@ var mainContainer = new Container({
   left:0, right:0, top:0, bottom:0,
   skin: whiteS,
   contents:[
-    new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Good",name: "droneStatus", style: textStyle}),
+    new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Offline",name: "droneStatus", style: textStyle}),
     new Picture({left: 10, right: 10, top: 20, bottom: 20, name: "cameraFeed" }),
-    new Label({left:0, right:0, bottom: 5, string: "Current Status: Off",name: "flightPath", style: textStyle})
+    new Label({left:0, right:0, bottom: 5, string: "Current Status: Off",name: "currStatus", style: textStyle})
   ]
 });
 
@@ -69,7 +73,7 @@ Handler.bind("/search", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Autopilot";
+		mainContainer.currStatus.string = "Current Status: Autopilot";
 		mainContainer.cameraFeed.load("china/ccenter.png");
 	}
 }));
@@ -78,7 +82,7 @@ Handler.bind("/forward", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		if (view == "back") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
@@ -93,7 +97,7 @@ Handler.bind("/back", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		if (view == "forward") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
@@ -108,7 +112,7 @@ Handler.bind("/left", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		if (view == "right") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
@@ -123,7 +127,7 @@ Handler.bind("/right", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		if (view == "left") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
@@ -138,7 +142,7 @@ Handler.bind("/ascend", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		if (view == "descend") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
@@ -153,7 +157,7 @@ Handler.bind("/descend", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
 		message.status = 200;
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		if (view == "ascend") {
 			mainContainer.cameraFeed.load("china/ccenter.png");
 			view = "center";
@@ -174,14 +178,14 @@ Handler.bind("/connect", Behavior({
 
 Handler.bind("/startPath", Behavior({
 	onInvoke: function(handler, message){
-		mainContainer.flightPath.string = "Current Status: Autopilot";
+		mainContainer.currStatus.string = "Current Status: Autopilot";
 		mainContainer.cameraFeed.load("china/ccenter.png");
 	}
 }));
 
 Handler.bind("/stopPath", Behavior({
 	onInvoke: function(handler, message){
-		mainContainer.flightPath.string = "Current Status: Manual";
+		mainContainer.currStatus.string = "Current Status: Manual";
 		mainContainer.cameraFeed.load("china/ccenter.png");
 	}
 }));
@@ -247,7 +251,9 @@ MainCanvas.behaviors[0] = Behavior.template({
 	    if (zc > 300) {
 	        mainContainer.droneStatus.string = "Drone Connectivity: Poor";
 	    } else {
-	       mainContainer.droneStatus.string = "Drone Connectivity: Good";
+	    	if (deviceURL != "") {
+	        	mainContainer.droneStatus.string = "Drone Connectivity: Good";
+	        }
 	    }
 		if (deviceURL != "") {
 		    params.invoke(new Message(deviceURL + "updateCurr"), Message.JSON);
