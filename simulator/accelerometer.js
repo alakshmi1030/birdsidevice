@@ -7,7 +7,7 @@ var PinsSimulators = require('PinsSimulators');
 //@line 21
 
 var maxx = 260;
-var maxy = 126;
+var maxy = 135;
 var maxz = 400;
 
 var configure = exports.configure = function(configuration) {

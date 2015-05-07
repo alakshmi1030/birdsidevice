@@ -28,7 +28,7 @@ var iconWidth = 50;
 var iconHeight = 50;
 var pictureWidth = 325;
 var pictureHeight = 325;
-
+`
 var xc = 0;
 var yc = 0;
 var zc = 0;
