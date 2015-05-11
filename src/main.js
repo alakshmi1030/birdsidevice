@@ -62,7 +62,7 @@ var mainContainer = new Container({
   skin: whiteS,
   contents:[
     new Label({left:0, right:0, top: 5, string: "Drone Connectivity: Offline",name: "droneStatus", style: textStyle}),
-    new Picture({left: 10, right: 10, top: 20, bottom: 20, name: "cameraFeed" }),
+    new Picture({left: 10, right: 10, top: 20, bottom: 20, name: "cameraFeed", url: "china/ccenter.png" }),
     new Label({left:0, right:0, bottom: 5, string: "Current Status: Off",name: "currStatus", style: textStyle})
   ]
 });
