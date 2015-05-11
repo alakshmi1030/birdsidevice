@@ -78,15 +78,6 @@ Handler.bind("/search", Behavior({
 	}
 }));
 
-Handler.bind("/fly", Behavior({
-	onInvoke: function(handler, message){
-		message.responseText = JSON.stringify( { response: "Movement received!" } );
-		message.status = 200;
-		mainContainer.currStatus.string = "Current Status: Manual";
-		mainContainer.cameraFeed.load("china/ccenter.png");
-	}
-}));
-
 Handler.bind("/forward", Behavior({
 	onInvoke: function(handler, message){
 		message.responseText = JSON.stringify( { response: "Movement received!" } );
