@@ -43,8 +43,6 @@ Handler.bind("/discover", Behavior({
 			mainContainer.droneStatus.string = "Drone Connectivity: Good";
 			mainContainer.currStatus.string = "Current Status: Manual";
 		}
-		//handler.invoke(new Message(deviceURL + "getData"), Message.JSON);
-		//do stuff here
 	},
 	onComplete: function(content, message, json){
 		trace("got it");
@@ -68,15 +66,6 @@ var mainContainer = new Container({
 });
 
 var view="center";
-
-Handler.bind("/search", Behavior({
-	onInvoke: function(handler, message){
-		message.responseText = JSON.stringify( { response: "Movement received!" } );
-		message.status = 200;
-		mainContainer.currStatus.string = "Current Status: Autopilot";
-		mainContainer.cameraFeed.load("china/ccenter.png");
-	}
-}));
 
 Handler.bind("/forward", Behavior({
 	onInvoke: function(handler, message){
@@ -193,13 +182,11 @@ Handler.bind("/stopPath", Behavior({
 /*BEGIN ACCELEROMETER STUFF*/
 
 Handler.bind("/potResult", Object.create(Behavior.prototype, {
-//@line 27
 	onInvoke: { value: function( handler, message ){
 				application.distribute( "receiveReading", message.requestObject );
 			}}
 }));
 Handler.bind("/accelResult", Object.create(Behavior.prototype, {
-//@line 35
 	onInvoke: { value: function( handler, message ){
 				application.distribute( "receiveAccelReading", message.requestObject );
 			}}
@@ -213,11 +200,9 @@ Handler.bind("/getData", Behavior({
 }));
 
 var MainContainer = Container.template(function($) { return { left: 0, right: 0, top: 0, bottom: 0, }});
-//@line 47
 var MainCanvas = Canvas.template(function($) { return { left: 10, right: 10, top: 10, bottom: 10, behavior: Object.create((MainCanvas.behaviors[0]).prototype), }});
 MainCanvas.behaviors = new Array(1);
 MainCanvas.behaviors[0] = Behavior.template({
-//@line 50
 	onDisplaying: function(content) {
 		this.canvas = content;
             	this.newPoint = true;
@@ -225,7 +210,6 @@ MainCanvas.behaviors[0] = Behavior.template({
 				application.invoke( new MessageWithObject( "pins:/accelerometer/read?repeat=on&callback=/accelResult&interval=70" ) );
                 this.clear();
 	},
-//@line 60
 	clear: function(content) {
 		var ctx = this.canvas.getContext( "2d" );
 				var w = this.canvas.width;
@@ -234,7 +218,6 @@ MainCanvas.behaviors[0] = Behavior.template({
 				ctx.fillRect( 0,0,w,h );
 				this.newPoint = true;
 	},
-//@line 69
 	receiveReading: function(params, data) {
 		if ( this.newPoint ){
                 	this.startLine( { x: data.xPos, y: data.yPos } );
@@ -243,7 +226,6 @@ MainCanvas.behaviors[0] = Behavior.template({
                 	this.lineTo( { x: data.xPos, y: 1 - data.yPos } );
                 }
 	},
-//@line 99
 	receiveAccelReading: function(params, data) {
 		xc = data.x;
 	    yc = data.y;
